@@ -44,13 +44,39 @@ ARG NEXT_PUBLIC_SALEOR_API_URL=https://demo.saleor.io/graphql/
 ARG NEXT_PUBLIC_DEFAULT_CHANNEL=default-channel
 
 # Set environment variables before copying files
+# Core Saleor configuration
 ENV NEXT_PUBLIC_SALEOR_API_URL=${NEXT_PUBLIC_SALEOR_API_URL}
 ENV NEXT_PUBLIC_DEFAULT_CHANNEL=${NEXT_PUBLIC_DEFAULT_CHANNEL}
 ENV SKIP_CODEGEN=true
+ENV NODE_ENV=production
+
+# Payment/Stripe configuration (빌드용 더미 값)
 ENV PAYMENT_APP_ID=dummy-payment-app-id
-ENV STRIPE_PUBLIC_KEY=pk_test_dummy
+ENV STRIPE_PUBLIC_KEY=pk_test_dummy_build_key
 ENV NEXT_PUBLIC_PAYMENT_APP_ID=dummy-payment-app-id
-ENV NEXT_PUBLIC_STRIPE_PUBLIC_KEY=pk_test_dummy
+ENV NEXT_PUBLIC_STRIPE_PUBLIC_KEY=pk_test_dummy_build_key
+ENV STRIPE_SECRET_KEY=sk_test_dummy_build_key
+
+# Server-side env vars (빌드용 더미 값, 런타임에 실제 값으로 교체)
+ENV SALEOR_APP_TOKEN=dummy-saleor-token-for-build
+
+# Storefront configuration
+ENV NEXT_PUBLIC_STOREFRONT_URL=http://localhost:3000
+ENV NEXT_PUBLIC_CMS_SERVICE=SALEOR
+ENV NEXT_PUBLIC_SEARCH_SERVICE=SALEOR
+ENV NEXT_PUBLIC_ENVIRONMENT=PRODUCTION
+ENV NEXT_PUBLIC_DEFAULT_EMAIL=contact@mirumee.com
+ENV NEXT_PUBLIC_DEFAULT_PAGE_TITLE=Nimara Storefront
+
+# Algolia search (빌드용 더미 값, 사용하지 않으면 무시됨)
+ENV NEXT_PUBLIC_ALGOLIA_APP_ID=YOUR_APP_ID
+ENV NEXT_PUBLIC_ALGOLIA_API_KEY=YOUR_API_KEY
+
+# Optional CMS (빌드용, 사용하지 않으면 무시됨)
+ENV NEXT_PUBLIC_BUTTER_CMS_API_KEY=
+
+# Telemetry
+ENV NEXT_TELEMETRY_DISABLED=1
 
 # Copy all source files
 COPY . .
