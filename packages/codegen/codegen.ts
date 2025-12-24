@@ -2,12 +2,6 @@ import { type CodegenConfig } from "@graphql-codegen/cli";
 import { type IGraphQLConfig } from "graphql-config";
 import { invariant } from "ts-invariant";
 
-// Skip codegen during Docker build if SKIP_CODEGEN is set
-if (process.env.SKIP_CODEGEN === "true") {
-  console.log("Skipping codegen (SKIP_CODEGEN=true)");
-  process.exit(0);
-}
-
 export const baseCodegenConfig: CodegenConfig["config"] = {
   documentMode: "string",
   enumsAsTypes: true,
