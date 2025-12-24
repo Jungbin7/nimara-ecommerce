@@ -37,19 +37,23 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY --from=deps /app/packages ./packages
 COPY --from=deps /app/apps/storefront/node_modules ./apps/storefront/node_modules
 
-# Copy all source files
-COPY . .
-
 # Build arguments for environment variables
 # Note: Using public Saleor demo API for codegen during build
 # Actual API URL will be set via environment variables at runtime
 ARG NEXT_PUBLIC_SALEOR_API_URL=https://demo.saleor.io/graphql/
 ARG NEXT_PUBLIC_DEFAULT_CHANNEL=default-channel
+
+# Set environment variables before copying files
 ENV NEXT_PUBLIC_SALEOR_API_URL=${NEXT_PUBLIC_SALEOR_API_URL}
 ENV NEXT_PUBLIC_DEFAULT_CHANNEL=${NEXT_PUBLIC_DEFAULT_CHANNEL}
 
-# Build the storefront
-RUN pnpm run build:storefront
+# Copy all source files
+COPY . .
+
+# Build the storefront with environment variables explicitly set
+RUN NEXT_PUBLIC_SALEOR_API_URL=${NEXT_PUBLIC_SALEOR_API_URL} \
+    NEXT_PUBLIC_DEFAULT_CHANNEL=${NEXT_PUBLIC_DEFAULT_CHANNEL} \
+    pnpm run build:storefront
 
 # Stage 3: Production image
 FROM node:22-alpine AS runner
