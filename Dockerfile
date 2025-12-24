@@ -50,12 +50,13 @@ ENV NEXT_PUBLIC_DEFAULT_CHANNEL=${NEXT_PUBLIC_DEFAULT_CHANNEL}
 # Copy all source files
 COPY . .
 
-# Build the storefront (skip codegen dependency as it requires backend API)
-# Turbo's build depends on codegen, but we skip dependencies during Docker build
+# Build the storefront (skip codegen as it requires backend API)
+# Codegen will be skipped via SKIP_CODEGEN=true environment variable
 # Existing generated types from source code will be used
-RUN NEXT_PUBLIC_SALEOR_API_URL=${NEXT_PUBLIC_SALEOR_API_URL} \
+RUN SKIP_CODEGEN=true \
+    NEXT_PUBLIC_SALEOR_API_URL=${NEXT_PUBLIC_SALEOR_API_URL} \
     NEXT_PUBLIC_DEFAULT_CHANNEL=${NEXT_PUBLIC_DEFAULT_CHANNEL} \
-    pnpm run build --filter=storefront --no-deps
+    pnpm run build:storefront
 
 # Stage 3: Production image
 FROM node:22-alpine AS runner
