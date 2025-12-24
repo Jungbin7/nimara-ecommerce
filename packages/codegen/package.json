@@ -2,7 +2,7 @@
   "name": "@nimara/codegen",
   "version": "1.0.0",
   "scripts": {
-    "codegen:saleor": "sh -c 'if [ \"$SKIP_CODEGEN\" = \"true\" ]; then echo \"Skipping codegen (SKIP_CODEGEN=true)\"; exit 0; fi; graphql-codegen --config ./codegen.ts --project saleor'",
+    "codegen:saleor": "node ./scripts/codegen-wrapper.js",
     "codegen": "pnpm codegen:saleor"
   },
   "devDependencies": {

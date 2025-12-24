@@ -51,6 +51,9 @@ ENV SKIP_CODEGEN=true
 # Copy all source files
 COPY . .
 
+# Debug: Verify environment variable (빌드 디버깅용, 나중에 제거 가능)
+RUN echo "DEBUG: SKIP_CODEGEN is set to: $SKIP_CODEGEN" || true
+
 # Build the storefront (skip codegen as it requires backend API)
 # Codegen will be skipped via SKIP_CODEGEN=true environment variable
 # Existing generated types from source code will be used
