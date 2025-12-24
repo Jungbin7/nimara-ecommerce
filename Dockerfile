@@ -41,7 +41,9 @@ COPY --from=deps /app/apps/storefront/node_modules ./apps/storefront/node_module
 COPY . .
 
 # Build arguments for environment variables
-ARG NEXT_PUBLIC_SALEOR_API_URL=http://backend:8000/graphql/
+# Note: Using public Saleor demo API for codegen during build
+# Actual API URL will be set via environment variables at runtime
+ARG NEXT_PUBLIC_SALEOR_API_URL=https://demo.saleor.io/graphql/
 ARG NEXT_PUBLIC_DEFAULT_CHANNEL=default-channel
 ENV NEXT_PUBLIC_SALEOR_API_URL=${NEXT_PUBLIC_SALEOR_API_URL}
 ENV NEXT_PUBLIC_DEFAULT_CHANNEL=${NEXT_PUBLIC_DEFAULT_CHANNEL}
