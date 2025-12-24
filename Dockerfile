@@ -40,9 +40,9 @@ COPY --from=deps /app/apps/storefront/node_modules ./apps/storefront/node_module
 # Copy all source files
 COPY . .
 
-# Build arguments for environment variables (optional)
-ARG NEXT_PUBLIC_SALEOR_API_URL
-ARG NEXT_PUBLIC_DEFAULT_CHANNEL
+# Build arguments for environment variables
+ARG NEXT_PUBLIC_SALEOR_API_URL=http://backend:8000/graphql/
+ARG NEXT_PUBLIC_DEFAULT_CHANNEL=default-channel
 ENV NEXT_PUBLIC_SALEOR_API_URL=${NEXT_PUBLIC_SALEOR_API_URL}
 ENV NEXT_PUBLIC_DEFAULT_CHANNEL=${NEXT_PUBLIC_DEFAULT_CHANNEL}
 
