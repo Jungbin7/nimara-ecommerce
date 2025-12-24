@@ -46,6 +46,7 @@ ARG NEXT_PUBLIC_DEFAULT_CHANNEL=default-channel
 # Set environment variables before copying files
 ENV NEXT_PUBLIC_SALEOR_API_URL=${NEXT_PUBLIC_SALEOR_API_URL}
 ENV NEXT_PUBLIC_DEFAULT_CHANNEL=${NEXT_PUBLIC_DEFAULT_CHANNEL}
+ENV SKIP_CODEGEN=true
 
 # Copy all source files
 COPY . .
@@ -53,10 +54,7 @@ COPY . .
 # Build the storefront (skip codegen as it requires backend API)
 # Codegen will be skipped via SKIP_CODEGEN=true environment variable
 # Existing generated types from source code will be used
-RUN SKIP_CODEGEN=true \
-    NEXT_PUBLIC_SALEOR_API_URL=${NEXT_PUBLIC_SALEOR_API_URL} \
-    NEXT_PUBLIC_DEFAULT_CHANNEL=${NEXT_PUBLIC_DEFAULT_CHANNEL} \
-    pnpm run build:storefront
+RUN pnpm run build:storefront
 
 # Stage 3: Production image
 FROM node:22-alpine AS runner
