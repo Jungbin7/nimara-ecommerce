@@ -106,9 +106,11 @@ RUN adduser --system --uid 1001 nextjs
 # Copy built application from builder
 COPY --from=builder --chown=nextjs:nodejs /app/apps/storefront/.next ./apps/storefront/.next
 COPY --from=builder --chown=nextjs:nodejs /app/apps/storefront/public ./apps/storefront/public
-COPY --from=builder --chown=nextjs:nodejs /app/apps/storefront/package.json ./apps/storefront/
+COPY --from=builder --chown=nextjs:nodejs /app/apps/storefront/package.json ./apps/storefront/package.json
+
+# Copy only production node_modules (next and dependencies)
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
-COPY --from=builder --chown=nextjs:nodejs /app/packages ./packages
+COPY --from=builder --chown=nextjs:nodejs /app/apps/storefront/node_modules ./apps/storefront/node_modules
 
 USER nextjs
 
